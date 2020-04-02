@@ -1,0 +1,30 @@
+ <!-- INíCIO do CONTEÚDO -->
+ <section class="content-header">
+  <h1>
+    Todos os Restaurantes
+  </h1>
+</section>
+
+
+<section class="content">
+
+  <div class="row">
+
+    <!-- 
+      Usamos a diretiva *ngFor para iterar um conjunto de restaurants,
+      depois passamos para o nosso componente individual restaurant,
+      que foi utilizado o decorator input no componente individual      
+    -->
+    <div *ngFor="let restaurant of restaurants" class="col-sm-6 col-xs-12">   
+      
+      <!-- 
+        No componente individual temos uma propriedade restaurant
+        e fazemos um property bind com o item individual que está sendo iterado no ngFor 
+       -->
+        <mt-restaurant [restaurant]="restaurant"></mt-restaurant>
+    </div>        
+  </div>
+
+</section>
+
+<!-- FIM  do CONTEÚDO -->
