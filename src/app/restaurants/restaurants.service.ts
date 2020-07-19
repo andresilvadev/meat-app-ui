@@ -51,4 +51,16 @@ export class RestaurantsService {
       .map((response) => response.json())
       .catch(ErrorHandler.handleError);
   }
+
+  /**
+   * Métoro que recebe um parâmetro string
+   * Que vai retornar um Observable que é um restaurante apenas
+   * @param id
+   */
+  restaurantById(id: string): Observable<Restaurant> {
+    return this.http
+      .get(`${MEAT_API}/restaurants/${id}`)
+      .map((response) => response.json())
+      .catch(ErrorHandler.handleError);
+  }
 }
