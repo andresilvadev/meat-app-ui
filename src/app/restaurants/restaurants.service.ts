@@ -63,4 +63,16 @@ export class RestaurantsService {
       .map((response) => response.json())
       .catch(ErrorHandler.handleError);
   }
+
+  /**
+   * Método que irá carregar os reviews de cada restaurant
+   * Neste caso retornamos um Observable do tipo any
+   * @param id
+   */
+  reviewsOfRestaurant(id: string): Observable<any> {
+    return this.http
+      .get(`${MEAT_API}/restaurants/${id}/reviews`)
+      .map((response) => response.json())
+      .catch(ErrorHandler.handleError);
+  }
 }
