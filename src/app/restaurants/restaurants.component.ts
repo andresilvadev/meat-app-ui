@@ -13,11 +13,23 @@ export class RestaurantsComponent implements OnInit {
   constructor(private restaurantService: RestaurantsService) {}
 
   ngOnInit() {
+    // this.getRestaurantsMock();
     this.getRestaurants();
   }
 
-  getRestaurants() {
-    this.restaurants = this.restaurantService.restaurants();
+  getRestaurantsMock() {
+    this.restaurants = this.restaurantService.restaurantsMock();
     return this.restaurants;
+  }
+
+  /**
+   * Quando o serviço retorna um Observable, precisamos se inscrever nele
+   * fazemos isso utilizando o subscribe, e vou pegar o que eu receber
+   * e passar para o valor da minha propriedade
+   */
+  getRestaurants() {
+    this.restaurantService
+      .restaurants()
+      .subscribe((restaurants) => (this.restaurants = restaurants));
   }
 }
