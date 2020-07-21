@@ -3,7 +3,22 @@
 
 <section class="content">
   <section class="invoice">
-    <form>
+    <!--
+      Quando trabalhamos com form, uma das primeiras coisas a se fazer é
+      desabilitar a validação de formulários do browser, por que cada browser
+      tem uma forma de validação diferente, isso evita que o usuário tenha
+      experiencias diferente ao usar Safari, Chrome, Edge.
+    -->
+
+    <pre>
+      {{ form.valid | json }}
+    </pre>
+    <pre>
+
+      {{ form.value | json }}
+    </pre>
+
+    <form #form="ngForm" novalidate>
       <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header">
@@ -26,6 +41,8 @@
               class="form-control"
               id="inputSuccess"
               placeholder="Endereço"
+              name="address"
+              ngModel
             />
             <span class="help-block"></span>
           </div>
@@ -40,6 +57,8 @@
               class="form-control"
               id="inputSuccess"
               placeholder="Número"
+              name="number"
+              ngModel
             />
             <span class="help-block"><i class="fa fa-check"></i> Ok</span>
           </div>
@@ -54,6 +73,8 @@
               class="form-control"
               id="inputSuccess"
               placeholder="Complemento"
+              name="optional"
+              ngModel
             />
             <span class="help-block"
               ><i class="fa fa-remove"></i> Help block with error</span
