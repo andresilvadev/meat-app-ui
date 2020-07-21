@@ -26,7 +26,7 @@ export class ShoppingCartService {
     // let foundItem = this.items.find(function (produto) {
     //   return produto.menuItem.id === item.id;
     // });
-
+    console.log(item);
     let foundItem = this.items.find(
       (produto) => produto.menuItem.id === item.id
     );

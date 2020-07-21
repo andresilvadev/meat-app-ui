@@ -14,8 +14,27 @@ export class ShoppingCartComponent implements OnInit {
   /**
    * Método que vai expor os items
    */
-  items(): any {
+  items(): any[] {
     return this.shoppingCartService.items;
+  }
+
+  /**
+   * Métoro que chama o serviço que limpa o carrinho
+   */
+  clear() {
+    this.shoppingCartService.clear();
+  }
+
+  /**
+   * Método que chama o serviço que remove um item
+   * @param item
+   */
+  removeItem(item: any) {
+    this.shoppingCartService.removeItem(item);
+  }
+
+  addItem(item: any) {
+    this.shoppingCartService.addItem(item);
   }
 
   /**

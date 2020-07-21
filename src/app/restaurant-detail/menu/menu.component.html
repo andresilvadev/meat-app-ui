@@ -5,12 +5,20 @@ menu-item, aqui pegamos o objeto do nosso evento e enviamos para um método addM
   <mt-menu-item
     *ngFor="let item of menu | async"
     [menuItem]="item"
-    (add)="addMenuItem($event)"
+    (add)="shoppingCart.addItem($event)"
   ></mt-menu-item>
 </div>
 <!-- /.info-box -->
 
 <div class="col-md-3 col-xs-12">
-  <mt-shopping-cart></mt-shopping-cart>
+  <mt-shopping-cart #shoppingCart></mt-shopping-cart>
 </div>
 <!-- FIM DO MENU -->
+
+<!--
+  Aqui temos dois componentes filhos um do lado do outro
+  Quando o evento o menu-item é disparado o meu componente
+  de cima pode simplismente pegar o item e jogar
+  para o componente do lado utilizando uma variavel de
+  referência
+ -->
