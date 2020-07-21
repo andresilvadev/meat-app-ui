@@ -8,13 +8,30 @@
       desabilitar a validação de formulários do browser, por que cada browser
       tem uma forma de validação diferente, isso evita que o usuário tenha
       experiencias diferente ao usar Safari, Chrome, Edge.
+
+      FORM:
+      VALID | INVALID => Se o valor do campo está de acordo ou não com as regras de navegação
+      PRISTINE | DIRTY => PRISTINE representa o estado inicial do campo ou do form, uma
+      vez que o usuário digita no campo ele se torna DIRTY e não volta mais
+      TOUCHED | UNTOUCHED => TOUCHED indica quando o usuário entra no campo
+
+      Para saber em qual estado o campo se encontra a gente precisa obter uma referência
+      para a diretiva ngModel do campo e a gente faz isso com variável de referencia
+      uma vez feito isso vc pode usar em qualquer lugar para indicar o status do campo
+
+      VALIDAÇÕES:
+       - REQUIRED
+       - PATTER - REGEX
+       - MINLENGTH E MAXLENGTH
+
+      Para ajudar dar um feedback ao usuário o Angular associa os campos e ao form
+      as classes ng-valid | ng-invalid, ng-pristine | ng-dirty, ng-touched | ng-untouched
     -->
 
     <pre>
       {{ form.valid | json }}
     </pre>
     <pre>
-
       {{ form.value | json }}
     </pre>
 
