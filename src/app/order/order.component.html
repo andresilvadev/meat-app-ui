@@ -59,7 +59,10 @@
               id="inputSuccess"
               placeholder="Endereço"
               name="address"
+              required
               ngModel
+              minlength="5"
+              autocomplete="off"
             />
             <span class="help-block"></span>
           </div>
@@ -75,7 +78,10 @@
               id="inputSuccess"
               placeholder="Número"
               name="number"
+              required
               ngModel
+              minlength="1"
+              autocomplete="off"
             />
             <span class="help-block"><i class="fa fa-check"></i> Ok</span>
           </div>
@@ -92,6 +98,7 @@
               placeholder="Complemento"
               name="optional"
               ngModel
+              autocomplete="off"
             />
             <span class="help-block"
               ><i class="fa fa-remove"></i> Help block with error</span
@@ -261,9 +268,9 @@
 
     <div class="row">
       <div class="col-xs-12">
-        <a href="order-summary.html" class="btn btn-success pull-right"
-          ><i class="fa fa-credit-card"></i> Concluir Pedido
-        </a>
+        <button class="btn btn-success pull-right" [disabled]="!form.valid">
+          <i class="fa fa-credit-card"></i> Concluir Pedido
+        </button>
       </div>
     </div>
   </section>
