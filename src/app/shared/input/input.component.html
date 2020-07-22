@@ -1,0 +1,31 @@
+<!--
+  ***** Content Projection *****
+
+  Para trabalhar com content projection utilizamos a tag
+  <ng-content><ng-content>
+  Então ao invéz de existir um input text trocamos por ng-content que é similar
+  ao router-outlet onde vc marca uma região onde através de uma navegação
+  vc entra com um componente correspondente aquela caminho
+  o ng-content representa um espaço que vai entrar um conteúdo
+  Mas que conteúdo? É o conteúdo que fica entre as tags do seu componentes
+  quando alguém estiver usando seu component.
+ -->
+
+<div
+  class="form-group"
+  [class.has-success]="hasSuccess()"
+  [class.has-error]="hasError()"
+>
+  <label class="control-label sr-only" for="inputSuccess"
+    ><i class="fa fa-check"></i> {{ label }}
+  </label>
+
+  <ng-content></ng-content>
+
+  <span class="help-block" *ngIf="hasSuccess()"
+    ><i class="fa fa-check"></i> Ok
+  </span>
+  <span class="help-block" *ngIf="hasError()"
+    ><i class="fa fa-remove"></i> {{ errorMessage }}
+  </span>
+</div>
