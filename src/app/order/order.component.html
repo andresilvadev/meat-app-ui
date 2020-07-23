@@ -159,7 +159,12 @@
 
           <div class="form-group">
             <!-- FORMAS DE PAGAMENTO -->
-            <mt-radio [options]="paymentOptions"></mt-radio>
+            <!-- Sempre precisamos do atributo name quando utilizamos ngModel -->
+            <mt-radio
+              [options]="paymentOptions"
+              name="paymentOption"
+              ngModel
+            ></mt-radio>
           </div>
         </div>
         <!-- /.col -->
