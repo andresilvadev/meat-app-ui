@@ -10,6 +10,12 @@ import { CartItem } from "app/restaurant-detail/shopping-cart/cart-item.model";
 })
 export class OrderComponent implements OnInit {
   /**
+   * Aqui setamos um valor fixo de 8 reais para o frete
+   * em uma aplicação real esse valor viria do back-end
+   */
+  delivery: number = 8;
+
+  /**
    * payments é um array de RadioOptions
    * que receberá 3 opções
    */
@@ -22,6 +28,10 @@ export class OrderComponent implements OnInit {
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {}
+
+  itemsValue(): number {
+    return this.orderService.itemsValue();
+  }
 
   cartItems() {
     return this.orderService.cartItems();
