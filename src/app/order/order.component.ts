@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RadioOptions } from "app/shared/radio/radio-options.model";
 import { OrderService } from "./order.service";
 import { CartItem } from "app/restaurant-detail/shopping-cart/cart-item.model";
+import { Order, OrderItem } from "./order.model";
 
 @Component({
   selector: "mt-order",
@@ -33,7 +34,7 @@ export class OrderComponent implements OnInit {
     return this.orderService.itemsValue();
   }
 
-  cartItems() {
+  cartItems(): CartItem[] {
     return this.orderService.cartItems();
   }
 
@@ -47,5 +48,22 @@ export class OrderComponent implements OnInit {
 
   remove(item: CartItem) {
     return this.orderService.remove(item);
+  }
+
+  /**
+   * Aqui percorremos cada item do cartItems() e adicionamos
+   * a ordemItems da entidade Order
+   * Básicamente transformamos os itens do CartItem para itens
+   * da OrderItems
+   * @param order
+   */
+  checkoutOrder(order: Order) {
+    order.orderItems = this.cartItems().map((item: CartItem) => {
+      return new OrderItem(item.quantity, item.menuItem.id);
+    });
+    this.orderService.checkoutOrder(order).subscribe((orderId: string) => {
+      console.log(`Compra concluída: ${orderId}`);
+      this.orderService.clear();
+    });
   }
 }
