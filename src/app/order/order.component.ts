@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { RadioOptions } from "app/shared/radio/radio-options.model";
 import { OrderService } from "./order.service";
 import { CartItem } from "app/restaurant-detail/shopping-cart/cart-item.model";
@@ -12,6 +12,11 @@ import { Router } from "@angular/router";
   styleUrls: ["./order.component.css"],
 })
 export class OrderComponent implements OnInit {
+  /** Propriedades Pattern são as responsáveis por receber as REGEX */
+  emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+  numberPattern = /^[0-9]*$/;
+
   /**
    * Trabalhando com Reactvie Form pode deixar o código um pouco mais verboso
    * em compensação o template irá ficar mais enxuto, toas as validações da página
@@ -50,13 +55,28 @@ export class OrderComponent implements OnInit {
        * 2 - Utilizar um método do formBuilder que cria um componente pra gente
        * que é um método chamado control -> email: this.formBuilder.control('')
        */
-      name: this.formBuilder.control(""),
-      email: this.formBuilder.control(""),
-      emailConfirmation: this.formBuilder.control(""),
-      address: this.formBuilder.control(""),
-      number: this.formBuilder.control(""),
+      name: this.formBuilder.control("", [
+        Validators.required,
+        Validators.minLength(5),
+      ]),
+      email: this.formBuilder.control("", [
+        Validators.required,
+        Validators.pattern(this.emailPattern),
+      ]),
+      emailConfirmation: this.formBuilder.control("", [
+        Validators.required,
+        Validators.pattern(this.emailPattern),
+      ]),
+      address: this.formBuilder.control("", [
+        Validators.required,
+        Validators.minLength(5),
+      ]),
+      number: this.formBuilder.control("", [
+        Validators.required,
+        Validators.pattern(this.numberPattern),
+      ]),
       optionalAddress: this.formBuilder.control(""),
-      paymentOption: this.formBuilder.control(""),
+      paymentOption: this.formBuilder.control("", [Validators.required]),
     });
   }
 
