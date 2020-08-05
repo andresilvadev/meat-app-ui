@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder } from "@angular/forms";
 import { RadioOptions } from "app/shared/radio/radio-options.model";
 import { OrderService } from "./order.service";
 import { CartItem } from "app/restaurant-detail/shopping-cart/cart-item.model";
@@ -11,6 +12,13 @@ import { Router } from "@angular/router";
   styleUrls: ["./order.component.css"],
 })
 export class OrderComponent implements OnInit {
+  /**
+   * Trabalhando com Reactvie Form pode deixar o código um pouco mais verboso
+   * em compensação o template irá ficar mais enxuto, toas as validações da página
+   * agora ira ficar no código
+   */
+  orderForm: FormGroup;
+
   /**
    * Aqui setamos um valor fixo de 8 reais para o frete
    * em uma aplicação real esse valor viria do back-end
@@ -27,9 +35,30 @@ export class OrderComponent implements OnInit {
     { label: "Cartão de Refeição", value: "REFEICAO" },
   ];
 
-  constructor(private orderService: OrderService, private router: Router) {}
+  constructor(
+    private orderService: OrderService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.orderForm = this.formBuilder.group({
+      /** Dentro deste objeto, vou ter propriedades que representam
+       * os imputs do formulário, e testaremos uma válidação personalizada
+       * Temos duas formas para fazer a primeira é:
+       * 1 - Podemos colocar o valor da propriedade dentro do objeto name: ''  ou
+       * 2 - Utilizar um método do formBuilder que cria um componente pra gente
+       * que é um método chamado control -> email: this.formBuilder.control('')
+       */
+      name: this.formBuilder.control(""),
+      email: this.formBuilder.control(""),
+      emailConfirmation: this.formBuilder.control(""),
+      address: this.formBuilder.control(""),
+      number: this.formBuilder.control(""),
+      optionalAddress: this.formBuilder.control(""),
+      paymentOption: this.formBuilder.control(""),
+    });
+  }
 
   itemsValue(): number {
     return this.orderService.itemsValue();
