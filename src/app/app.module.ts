@@ -1,7 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, LOCALE_ID } from "@angular/core";
 import { HttpModule } from "@angular/http";
-import { RouterModule } from "@angular/router";
+import { RouterModule, PreloadAllModules } from "@angular/router";
 
 import { ROUTES } from "./app.routes";
 
@@ -42,7 +42,14 @@ import { SharedModule } from "./shared/shared.module";
     BrowserModule,
     HttpModule,
     SharedModule.forRoot(),
-    RouterModule.forRoot(ROUTES),
+
+    /**
+     * Se for necessário carregar outros modulos de forma tardia o angular dispoem da
+     * estrategia de carregamento chamada de preloadingStragy do tipo PreloadAllModules,
+     * que irá permitir carregar de forma tardia em modo background os demais componentes
+     * se prefetir manter o lazy-loading basta remover esta estratégia
+     */
+    RouterModule.forRoot(ROUTES, { preloadingStrategy: PreloadAllModules }),
   ],
   providers: [
     {
