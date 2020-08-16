@@ -1,9 +1,12 @@
-import { NgModule, Input } from "@angular/core";
+import { NgModule, Input, ModuleWithProviders } from "@angular/core";
 import { InputComponent } from "./input/input.component";
 import { RadioComponent } from "./radio/radio.component";
 import { RatingComponent } from "./rating/rating.component";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ShoppingCartService } from "app/restaurant-detail/shopping-cart/shopping-cart.service";
+import { RestaurantsService } from "app/restaurants/restaurants.service";
+import { OrderService } from "app/order/order.service";
 
 /**
  * declarations: declaramos os componentes que serão importados
@@ -34,6 +37,19 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
 })
-export class SharedModule {}
+export class SharedModule {
+  /**
+   * Função statica que chamamos de forRoot, que não vai ter parametro
+   * e vai retornar um ModuleWithProvider, que vai retonar um objeto que um deles é
+   * o SharedModule e o outro é uma lista de providers.
+   * Depois lá no modulo raiz, chama o SharedModule com a função forRoot(), fazendo isso
+   * torna nosso core module obsoleto, não sendo mais necessário importa-lo no modulo raiz
+   */
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [ShoppingCartService, RestaurantsService, OrderService],
+    };
+  }
+}
