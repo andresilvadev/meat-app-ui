@@ -7,6 +7,7 @@ import { MenuComponent } from "./restaurant-detail/menu/menu.component";
 import { ReviewsComponent } from "./restaurant-detail/reviews/reviews.component";
 
 import { OrderSummaryComponent } from "./order-summary/order-summary.component";
+import { NotFoundComponent } from "./not-found/not-found.component";
 
 /**
  * Cada chunk mostrado no console, representa um modulo lazy da aplicacao
@@ -26,4 +27,5 @@ export const ROUTES: Routes = [
   },
   { path: "order", loadChildren: "./order/order.module#OrderModule" },
   { path: "order-summary", component: OrderSummaryComponent },
+  { path: "**", component: NotFoundComponent }
 ];
