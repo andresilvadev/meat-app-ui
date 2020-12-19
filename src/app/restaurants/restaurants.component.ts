@@ -6,6 +6,9 @@ import { Restaurant } from "./restaurant/restaurant.model";
 import { RestaurantsService } from "./restaurants.service";
 
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
   selector: "mt-restaurants",
@@ -56,7 +59,12 @@ export class RestaurantsComponent implements OnInit {
     //   console.log(serchTerm);
     // });
 
+    // debounceTime = Espera um determinado tempo para gente digitar
+    // distinctUntilChanged = Só vai notificar agente quando realmente um valor mudar ao evento anterior
     this.searchControl.valueChanges
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .do(searchTerm => console.log(`q=${searchTerm}`))
       .switchMap(serchTerm => this.restaurantService.restaurants(serchTerm))
       .subscribe(restaurants => this.restaurants = restaurants);
 
