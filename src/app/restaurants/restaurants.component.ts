@@ -1,8 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { Restaurant } from "./restaurant/restaurant.model";
 import { RestaurantsService } from "./restaurants.service";
+
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: "mt-restaurants",
@@ -28,12 +31,35 @@ export class RestaurantsComponent implements OnInit {
   
   searchBarState = 'hidden';
   restaurants: Restaurant[];
+  searchForm: FormGroup;
+  searchControl: FormControl;
 
-
-  constructor(private restaurantService: RestaurantsService) {}
+  constructor(
+    private restaurantService: RestaurantsService,
+    private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     // this.getRestaurantsMock();
+    this.searchControl = this.formBuilder.control('');
+
+    this.searchForm = this.formBuilder.group({
+      searchControl: this.searchControl
+    });
+
+    /**
+     *O formControl tem uma propriedade chamada valueChanges
+     * que ela é um Observable, você pode se inscrever, então toda vida que alguém 
+     * digitar um valor, ou seja quando aquele valor mudar, isso vai gerar um evento 
+     * e quem estiver inscrito no valueChanges vai receber uma notificação
+     **/ 
+    // this.searchControl.valueChanges.subscribe(serchTerm => {
+    //   console.log(serchTerm);
+    // });
+
+    this.searchControl.valueChanges
+      .switchMap(serchTerm => this.restaurantService.restaurants(serchTerm))
+      .subscribe(restaurants => this.restaurants = restaurants);
+
     this.getRestaurants();
   }
 
