@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Restaurant } from "./restaurant/restaurant.model";
-import { Http } from "@angular/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { MEAT_API } from "app/app.api";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
@@ -30,7 +30,7 @@ export class RestaurantsService {
     },
   ];
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Método que retorna um array de restaurants
@@ -47,10 +47,14 @@ export class RestaurantsService {
    *
    */
   restaurants(searchTerm?: string): Observable<Restaurant[]> {
-    return this.http
-      .get(`${MEAT_API}/restaurants`, { params: { q: searchTerm }})
-      .map((response) => response.json())
-      .catch(ErrorHandler.handleError);
+    let params: HttpParams = undefined;
+
+    if(searchTerm) {
+      params =  new HttpParams().append('q', searchTerm);
+      // params.append('q', searchTerm);
+    }
+
+    return this.http.get<Restaurant[]>(`${MEAT_API}/restaurants`, { params: params })
   }
 
   /**
@@ -59,10 +63,7 @@ export class RestaurantsService {
    * @param id
    */
   restaurantById(id: string): Observable<Restaurant> {
-    return this.http
-      .get(`${MEAT_API}/restaurants/${id}`)
-      .map((response) => response.json())
-      .catch(ErrorHandler.handleError);
+    return this.http.get<Restaurant>(`${MEAT_API}/restaurants/${id}`)
   }
 
   /**
@@ -71,10 +72,7 @@ export class RestaurantsService {
    * @param id
    */
   reviewsOfRestaurant(id: string): Observable<any> {
-    return this.http
-      .get(`${MEAT_API}/restaurants/${id}/reviews`)
-      .map((response) => response.json())
-      .catch(ErrorHandler.handleError);
+    return this.http.get(`${MEAT_API}/restaurants/${id}/reviews`)
   }
 
   /**
@@ -83,9 +81,6 @@ export class RestaurantsService {
    * @param id
    */
   menuOfRestaurant(id: string): Observable<MenuItem[]> {
-    return this.http
-      .get(`${MEAT_API}/restaurants/${id}/menu`)
-      .map((response) => response.json())
-      .catch(ErrorHandler.handleError);
+    return this.http.get<MenuItem[]>(`${MEAT_API}/restaurants/${id}/menu`)
   }
 }

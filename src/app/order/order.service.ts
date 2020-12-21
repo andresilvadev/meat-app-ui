@@ -3,14 +3,14 @@ import { ShoppingCartService } from "app/restaurant-detail/shopping-cart/shoppin
 import { CartItem } from "app/restaurant-detail/shopping-cart/cart-item.model";
 import { Order } from "./order.model";
 import { Observable } from "rxjs/Observable";
-import { Http, Headers, RequestOptions } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { MEAT_API } from "app/app.api";
 
 @Injectable()
 export class OrderService {
   constructor(
     private shoppingCartService: ShoppingCartService,
-    private http: Http
+    private http: HttpClient
   ) {}
 
   itemsValue(): number {
@@ -37,18 +37,9 @@ export class OrderService {
    * JSON.stringfy() envia uma representação textual do objeto json
    * @param order
    */
-  checkoutOrder(order: Order): Observable<string> {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this.http
-      .post(
-        `${MEAT_API}/orders`,
-        JSON.stringify(order),
-        new RequestOptions({ headers: headers })
-      )
-      .map((response) => response.json())
-      .map((order) => order.id);
+  checkoutOrder(order: Order): Observable<string> {    
+    return this.http.post<Order>(`${MEAT_API}/orders`, order)      
+                        .map(order => order.id);
   }
 
   clear() {
