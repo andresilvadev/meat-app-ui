@@ -24,6 +24,18 @@
 
 `json-server db.json`
 
+### Compilar arquivo tsconfig.json
+`npm install -g typescript`
+`tsc -v`
+`tsc -w`
+
+### Usando nodemon para monitorar a mudança dos arquivos
+`npm install nodemon -g`
+
+### Iniciando servidor node em ambiente dev em modo watch
+`nodemon --watch backend backend/dist/server.js`  ou `npm run server-node`
+
+
 ## Goodies
 
 Expressões regulares usadas na validação de formulários
