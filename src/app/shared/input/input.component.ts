@@ -13,8 +13,10 @@ import { NgModel, FormControlName } from "@angular/forms";
   styleUrls: ["./input.component.css"],
 })
 export class InputComponent implements OnInit, AfterContentInit {
+  
   @Input() label: string;
   @Input() errorMessage: string;
+  @Input() showTip: boolean = true;
 
   input: any;
 
