@@ -8,12 +8,14 @@ import { ReviewsComponent } from "./restaurant-detail/reviews/reviews.component"
 
 import { OrderSummaryComponent } from "./order-summary/order-summary.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
+import { LoginComponent } from "./security/login/login.component";
 
 /**
  * Cada chunk mostrado no console, representa um modulo lazy da aplicacao
  */
 export const ROUTES: Routes = [
   { path: "", component: HomeComponent },
+  { path: "login", component: LoginComponent },
   { path: "about", loadChildren: "./about/about.module#AboutModule" },
   { path: "restaurants", component: RestaurantsComponent },
   {
