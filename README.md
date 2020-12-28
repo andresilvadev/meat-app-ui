@@ -4,7 +4,7 @@
 
 ### Clonando o Repositório
 
-`git clone https://github.com/cod3rcursos/meat-app-starter.git`
+`git clone https://github.com/andresilvadev/meat-app-ui`
 
 ### Instalando as Dependências
 
@@ -12,7 +12,9 @@
 
 ### Inicializando o Servidor
 
-`ng serve` ou `npm start`
+`ng serve` ou `npm start` para aplicação angular
+
+
 
 ## 2. Iniciando o Backend
 
@@ -33,7 +35,8 @@
 `npm install nodemon -g`
 
 ### Iniciando servidor node em ambiente dev em modo watch
-`nodemon --watch backend backend/dist/server.js`  ou `npm run server-node`
+`npm run server-node` ou `nodemon --watch backend backend/dist/server.js`
+
 
 
 ## Goodies

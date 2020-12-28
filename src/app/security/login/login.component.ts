@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     })
 
     // Se ninguém passar uma rota navega para barra que é a raiz
-    this.navigateTo = this.activateRoute.snapshot.params['to'] || '/'
+    this.navigateTo = this.activateRoute.snapshot.params['to'] || btoa('/')
   }
 
   login() {
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
                   this.notificationService.notify(`Bem vindo (a), ${user.name}`),
               response => this.notificationService.notify(response.error.message),
               () => {
-                this.router.navigate([this.navigateTo]);
+                this.router.navigate([atob(this.navigateTo)]);
               })
   }
 
