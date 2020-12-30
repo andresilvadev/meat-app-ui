@@ -11,8 +11,7 @@ import { LoginService } from "app/security/login/login.service";
 export class OrderService {
   constructor(
     private shoppingCartService: ShoppingCartService,
-    private http: HttpClient,
-    private loginService: LoginService
+    private http: HttpClient
   ) {}
 
   itemsValue(): number {
@@ -39,14 +38,8 @@ export class OrderService {
    * JSON.stringfy() envia uma representação textual do objeto json
    * @param order
    */
-  checkoutOrder(order: Order): Observable<string> {    
-    let headers = new HttpHeaders();
-
-    if(this.loginService.isLoggeIn()) {
-      headers = headers.append('Authorization', `Bearer ${this.loginService.user.accessToken}`)
-    }
-
-    return this.http.post<Order>(`${MEAT_API}/orders`, order, { headers: headers })      
+  checkoutOrder(order: Order): Observable<string> { 
+    return this.http.post<Order>(`${MEAT_API}/orders`, order)      
                         .map(order => order.id);
   }
 
