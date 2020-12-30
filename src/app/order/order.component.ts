@@ -11,6 +11,8 @@ import { CartItem } from "app/restaurant-detail/shopping-cart/cart-item.model";
 import { Order, OrderItem } from "./order.model";
 import { Router } from "@angular/router";
 
+import 'rxjs/add/operator/do';
+
 @Component({
   selector: "mt-order",
   templateUrl: "./order.component.html",
@@ -34,6 +36,8 @@ export class OrderComponent implements OnInit {
    * em uma aplicação real esse valor viria do back-end
    */
   delivery: number = 8;
+
+  orderId: string;
 
   /**
    * payments é um array de RadioOptions
@@ -149,6 +153,10 @@ export class OrderComponent implements OnInit {
     return this.orderService.remove(item);
   }
 
+  isOrderCompleted(): boolean {
+    return this.orderId !== undefined;
+  }
+
   /**
    * Aqui percorremos cada item do cartItems() e adicionamos
    * a ordemItems da entidade Order
@@ -160,7 +168,11 @@ export class OrderComponent implements OnInit {
     order.orderItems = this.cartItems().map((item: CartItem) => {
       return new OrderItem(item.quantity, item.menuItem.id);
     });
-    this.orderService.checkoutOrder(order).subscribe((orderId: string) => {
+    this.orderService.checkoutOrder(order)
+    .do((orderId: string) => {
+      this.orderId = orderId
+    })    
+    .subscribe((orderId: string) => {
       console.log(`Compra concluída: ${orderId}`);
       this.router.navigate(["/order-summary"]);
       this.orderService.clear();
