@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { Observable } from "rxjs/Observable";
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
+
+import { Observable } from "rxjs";
+import {tap, filter} from 'rxjs/operators';
 
 import { MEAT_API } from "app/app.api";
 import { User } from "./user.model";
@@ -19,7 +19,8 @@ export class LoginService {
     private http: HttpClient, 
     private router: Router
     ) {
-      this.router.events.filter(ev => ev instanceof NavigationEnd ).subscribe((ev: NavigationEnd) => this.lastUrl = ev.url );
+      this.router.events.pipe(filter(ev => ev instanceof NavigationEnd ))
+                        .subscribe((ev: NavigationEnd) => this.lastUrl = ev.url );
     }
 
   isLoggeIn(): boolean {
@@ -30,7 +31,7 @@ export class LoginService {
     return this.http.post<User>(`${MEAT_API}/login`, {
       email: email, 
       password: password
-    }).do(user => this.user = user)
+    }).pipe(tap(user => this.user = user))
   }
 
   logout() {

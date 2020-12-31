@@ -5,13 +5,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Restaurant } from "./restaurant/restaurant.model";
 import { RestaurantsService } from "./restaurants.service";
 
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/from';
-import { Observable } from 'rxjs/Observable';
+import { Observable, from } from "rxjs";
+import {switchMap, tap, debounceTime, distinctUntilChanged, catchError} from 'rxjs/operators';
 
 @Component({
   selector: "mt-restaurants",
@@ -65,13 +60,15 @@ export class RestaurantsComponent implements OnInit {
     // debounceTime = Espera um determinado tempo para gente digitar
     // distinctUntilChanged = Só vai notificar agente quando realmente um valor mudar ao evento anterior
     this.searchControl.valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .do(searchTerm => console.log(`q=${searchTerm}`))
-      .switchMap(serchTerm => this.restaurantService.restaurants(serchTerm)
-        .catch(error => Observable.from([]))
-      )
-      .subscribe(restaurants => this.restaurants = restaurants);
+      .pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
+          switchMap(serchTerm => 
+              this.restaurantService
+              .restaurants(serchTerm)
+              .pipe(catchError(error => from([])))
+          )
+      ).subscribe(restaurants => this.restaurants = restaurants);
 
     this.getRestaurants();
   }

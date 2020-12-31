@@ -12,7 +12,7 @@ import { CartItem } from "app/restaurant-detail/shopping-cart/cart-item.model";
 import { Order, OrderItem } from "./order.model";
 import { Router } from "@angular/router";
 
-import 'rxjs/add/operator/do';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: "mt-order",
@@ -172,9 +172,9 @@ export class OrderComponent implements OnInit {
       return new OrderItem(item.quantity, item.menuItem.id);
     });
     this.orderService.checkoutOrder(order)
-    .do((orderId: string) => {
+    .pipe(tap((orderId: string) => {
       this.orderId = orderId
-    })    
+    }))        
     .subscribe((orderId: string) => {
       console.log(`Compra concluída: ${orderId}`);
       this.router.navigate(["/order-summary"]);
