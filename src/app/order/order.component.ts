@@ -4,6 +4,7 @@ import {
   FormBuilder,
   Validators,
   AbstractControl,
+  FormControl,
 } from "@angular/forms";
 import { RadioOptions } from "app/shared/radio/radio-options.model";
 import { OrderService } from "./order.service";
@@ -56,7 +57,7 @@ export class OrderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.orderForm = this.formBuilder.group(
+    this.orderForm = new FormGroup(
       {
         /** Dentro deste objeto, vou ter propriedades que representam
          * os imputs do formulário, e testaremos uma válidação personalizada
@@ -65,10 +66,12 @@ export class OrderComponent implements OnInit {
          * 2 - Utilizar um método do formBuilder que cria um componente pra gente
          * que é um método chamado control -> email: this.formBuilder.control('')
          */
-        name: this.formBuilder.control("", [
+        name: new FormControl("", {
+         validators: [
           Validators.required,
-          Validators.minLength(5),
-        ]),
+          Validators.minLength(5)
+         ],         
+        }),
         email: this.formBuilder.control("", [
           Validators.required,
           Validators.pattern(this.emailPattern),
@@ -88,7 +91,7 @@ export class OrderComponent implements OnInit {
         optionalAddress: this.formBuilder.control(""),
         paymentOption: this.formBuilder.control("", [Validators.required]),
       },
-      { validator: OrderComponent.equalsTo }
+      { validators: [OrderComponent.equalsTo], updateOn: 'blur' }
     );
 
     /** Em Reactive Forms podemor criar validadores e associar aos grupos que estamos formando
